@@ -2,34 +2,22 @@ const quoteText = document.getElementById('quote');
 const authorText = document.getElementById('author');
 const quoteBtn = document.getElementById('new-quote');
 
-async function getQuote() {
-    quoteText.innerText = "Loading...";
-    authorText.innerText = "";
-    
-    try {
-        // ලෝකප්‍රකට Quotes දෙන නොමිලේ API එකක්
-        const response = await fetch('https://api.quotable.io/random');
-        
-        // ඉහත API එක වැඩ නොකළහොත් වෙනත් එකක් පාවිච්චි කිරීම
-        if(!response.ok) {
-            const altRes = await fetch('https://dummyjson.com/quotes/random');
-            const altData = await altRes.json();
-            quoteText.innerText = altData.quote;
-            authorText.innerText = "- " + altData.author;
-            return;
-        }
+const myQuotes = [
+    { q: "සාර්ථකත්වය යනු වැටෙන හැම වතාවකම නැගිටීමයි.", a: "වින්ස්ටන් චර්චිල්" },
+    { q: "ඔබට කළ නොහැකි දෙයක් නැත.", a: "මොටිවේෂන්" },
+    { q: "අද දින හොඳින් වැඩ කරන්න.", a: "අනන්‍ය" }
+];
 
-        const data = await response.json();
-        quoteText.innerText = data.content;
-        authorText.innerText = "- " + data.author;
-    } catch (error) {
-        quoteText.innerText = "Oops! Something went wrong.";
-        console.log(error);
-    }
+function getQuote() {
+    console.log("Button clicked!"); // මේකෙන් බටන් එක වැඩද කියලා බලන්න පුළුවන්
+    const randomIndex = Math.floor(Math.random() * myQuotes.length);
+    const selectedQuote = myQuotes[randomIndex];
+    
+    quoteText.innerText = selectedQuote.q;
+    authorText.innerText = "- " + selectedQuote.a;
 }
 
-// Button එක click කළ විට වැඩ කිරීමට
 quoteBtn.addEventListener('click', getQuote);
 
-// Page එක load වූ සැනින් එකක් පෙන්වීමට
+// මුලින්ම පේජ් එකට එද්දී එකක් පෙන්වන්න
 getQuote();
