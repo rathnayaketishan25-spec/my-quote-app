@@ -2,23 +2,27 @@ const quoteText = document.getElementById('quote');
 const authorText = document.getElementById('author');
 const quoteBtn = document.getElementById('new-quote');
 
-async function getQuote() {
-    quoteText.innerText = "ගෙන්නන ගමන්...";
-    authorText.innerText = "";
-    
-    try {
-        // අපි වෙනත් API එකක් පාවිච්චි කරමු
-        const response = await fetch('https://api.allorigins.win/get?url=' + encodeURIComponent('https://zenquotes.io/api/random'));
-        const data = await response.json();
-        const quoteData = JSON.parse(data.contents);
+// අපිම හදාගත්ත Quotes ලිස්ට් එක. මේකට ඔයාට ඕන තරම් පස්සේ එකතු කරන්න පුළුවන්.
+const myQuotes = [
+    { q: "The only way to do great work is to love what you do.", a: "Steve Jobs" },
+    { q: "Believe you can and you're halfway there.", a: "Theodore Roosevelt" },
+    { q: "Success is not final, failure is not fatal: it is the courage to continue that counts.", a: "Winston Churchill" },
+    { q: "It always seems impossible until it's done.", a: "Nelson Mandela" },
+    { q: "Your time is limited, so don't waste it living someone else's life.", a: "Steve Jobs" },
+    { q: "Hardships often prepare ordinary people for an extraordinary destiny.", a: "C.S. Lewis" }
+];
 
-        quoteText.innerText = quoteData[0].q;
-        authorText.innerText = "- " + quoteData[0].a;
-    } catch (error) {
-        quoteText.innerText = "අන්තර්ජාලයේ පොඩි අවුලක්. ආයෙත් ට්‍රයි කරන්න!";
-        authorText.innerText = "";
-    }
+function getQuote() {
+    // ලිස්ට් එකෙන් අහඹු ලෙස එකක් තෝරාගන්නා හැටි
+    const randomIndex = Math.floor(Math.random() * myQuotes.length);
+    const selectedQuote = myQuotes[randomIndex];
+    
+    quoteText.innerText = selectedQuote.q;
+    authorText.innerText = "- " + selectedQuote.a;
 }
 
+// බටන් එක එබුවාම වැඩ කරන්න
 quoteBtn.addEventListener('click', getQuote);
+
+// මුලින්ම පේජ් එකට එද්දී එකක් පෙන්වන්න
 getQuote();
