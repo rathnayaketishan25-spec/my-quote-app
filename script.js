@@ -19,6 +19,7 @@ function getQuote() {
     
     quoteText.innerText = selectedQuote.q;
     authorText.innerText = "- " + selectedQuote.a;
+     document.getElementById('author-image').src = selectedQuote.img;
 }
 
 // බටන් එක එබුවාම වැඩ කරන්න
