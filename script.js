@@ -3,17 +3,33 @@ const authorText = document.getElementById('author');
 const quoteBtn = document.getElementById('new-quote');
 
 async function getQuote() {
-    // API එකකින් quote එකක් ලබා ගැනීම
-    const response = await fetch('https://api.allorigins.win/get?url=' + encodeURIComponent('https://zenquotes.io/api/random'));
-    const data = await response.json();
-    const contents = JSON.parse(data.contents);
+    quoteText.innerText = "Loading...";
+    authorText.innerText = "";
     
-    quoteText.innerText = contents[0].q;
-    authorText.innerText = "- " + contents[0].a;
+    try {
+        // ලෝකප්‍රකට Quotes දෙන නොමිලේ API එකක්
+        const response = await fetch('https://api.quotable.io/random');
+        
+        // ඉහත API එක වැඩ නොකළහොත් වෙනත් එකක් පාවිච්චි කිරීම
+        if(!response.ok) {
+            const altRes = await fetch('https://dummyjson.com/quotes/random');
+            const altData = await altRes.json();
+            quoteText.innerText = altData.quote;
+            authorText.innerText = "- " + altData.author;
+            return;
+        }
+
+        const data = await response.json();
+        quoteText.innerText = data.content;
+        authorText.innerText = "- " + data.author;
+    } catch (error) {
+        quoteText.innerText = "Oops! Something went wrong.";
+        console.log(error);
+    }
 }
 
-// බටන් එක click කරන විට අලුත් එකක් පෙන්වන්න
+// Button එක click කළ විට වැඩ කිරීමට
 quoteBtn.addEventListener('click', getQuote);
 
-// මුලින්ම පේජ් එකට එද්දී එකක් පෙන්වන්න
+// Page එක load වූ සැනින් එකක් පෙන්වීමට
 getQuote();
