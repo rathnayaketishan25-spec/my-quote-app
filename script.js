@@ -12,7 +12,7 @@ async function getQuote() {
         const response = await fetch('https://api.quotable.io/random');
         const data = await response.json();
 
-        // API එකෙන් ලැබෙන දත්ත ඇප් එකට දාමු
+        // API එකෙන් ලැබෙන දත්ත ඇප් එකට දාමු 
         quoteText.innerText = data.content;
         authorText.innerText = "- " + data.author;
     } catch (error) {
